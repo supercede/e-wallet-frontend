@@ -22,6 +22,7 @@ const FormField = styled(TextField)`
   width: 100%;
 `;
 
+@inject()
 class SignUpPage extends Component {
   constructor(props) {
     super(props);
@@ -32,6 +33,10 @@ class SignUpPage extends Component {
       errorMessage: null,
     };
   }
+
+  goToSignIn = () => {
+    this.props.routerStore.push('/signin');
+  };
 
   submit = async () => {
     const { email, password, passwordConfirm } = this.state;
@@ -98,6 +103,9 @@ class SignUpPage extends Component {
               onClick={this.submit}
             >
               SIGN UP
+            </Button>
+            <Button fullWidth onClick={this.goToSignIn}>
+              Sign in instead?
             </Button>
           </div>
         </FormContainer>

@@ -2,14 +2,23 @@ import React from 'react';
 import { Provider } from 'mobx-react';
 import ReactDOM from 'react-dom';
 import { Router } from 'react-router';
+import { createBrowserHistory } from 'history';
+import { RouterStore, syncHistoryWithStore } from 'mobx-react-router';
 
 import './index.css';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
 
+const stores = {};
+
+stores.routerStore = new RouterStore();
+
+const browserHistory = createBrowserHistory();
+const history = syncHistoryWithStore(browserHistory, stores.routerStore);
+
 ReactDOM.render(
   <React.StrictMode>
-    <Router>
+    <Router history={history}>
       <App />
     </Router>
   </React.StrictMode>,
