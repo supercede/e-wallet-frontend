@@ -10,14 +10,18 @@ import App from './App';
 import * as serviceWorker from './serviceWorker';
 import UserStore from './stores/user.store';
 import AuthService from './services/auth.service';
+import TransactionService from './services/transaction.service';
+import TransactionStore from './stores/transaction.store';
 
 const services = {};
 const stores = {};
 
-services.authService = new AuthService();
-
 stores.routerStore = new RouterStore();
+services.authService = new AuthService();
+services.transactionsService = new TransactionService(stores.routerStore);
+
 stores.userStore = new UserStore(services.authService);
+stores.transactionsStore = new TransactionStore(services.transactionsService);
 
 const browserHistory = createBrowserHistory();
 const history = syncHistoryWithStore(browserHistory, stores.routerStore);

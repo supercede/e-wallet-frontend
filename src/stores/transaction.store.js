@@ -2,11 +2,11 @@ import { observable, action } from 'mobx';
 
 export default class TransactionStore {
   @observable transactions = [];
-  @observable wallet = [];
+  @observable wallet = {};
   @observable filters = { page: 1, limit: 10 };
 
-  constructor(transactionService) {
-    this.transactionService = transactionService;
+  constructor(transactionsService) {
+    this.transactionsService = transactionsService;
   }
 
   updateFilters({ status, search }) {
@@ -17,21 +17,23 @@ export default class TransactionStore {
 
   @action
   async fetchTransactions() {
-    const result = await this.transactionService.fetchTransactions(
+    const result = await this.transactionsService.fetchTransactions(
       this.filters
     );
 
     if (result) {
-      this.transactions = result.data;
+      this.transactions = result.data.data.transactions;
     }
   }
 
   @action
   async getWallet() {
-    const result = await this.transactionService.fetchWallet();
+    // console.log(this);
+
+    const result = await this.transactionsService.fetchWallet();
 
     if (result) {
-      this.wallet = result.data;
+      this.wallet = result.data.data.wallet;
     }
   }
 }

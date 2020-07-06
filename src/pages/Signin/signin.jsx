@@ -53,8 +53,6 @@ class SignInPage extends Component {
     const { email, password } = this.state;
 
     try {
-      console.log(email, password);
-
       await this.props.userStore.signin(email, password);
     } catch (error) {
       console.log(error);

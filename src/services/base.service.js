@@ -4,15 +4,15 @@ export default class BaseService {
   BASE_URL = 'http://localhost:5000/api/v1';
   _token = null;
 
-  constructor(store) {
-    this.routeStore = store;
+  constructor(routerStore) {
+    this.routerStore = routerStore;
   }
 
   async get(endpoint, options = {}) {
     Object.assign(options, this._getCommonOptions());
     return axios
       .get(`${this.BASE_URL}/${endpoint}`, options)
-      .catch((error) => this.handleHttpError(error));
+      .catch((error) => this._handleHttpError(error));
   }
 
   async post(endpoint, data = {}, options = {}) {
@@ -29,7 +29,7 @@ export default class BaseService {
       .catch((error) => this._handleHttpError(error));
   }
 
-  handleHttpError(error) {
+  _handleHttpError(error) {
     const { statusCode } = error.response.data;
 
     if (statusCode !== 401) {
@@ -39,7 +39,7 @@ export default class BaseService {
     }
   }
 
-  handleUnauthorized() {
+  _handleUnauthorized() {
     this.routerStore.push('/signin');
   }
 

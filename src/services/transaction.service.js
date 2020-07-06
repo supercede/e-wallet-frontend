@@ -3,7 +3,8 @@ import queryString from 'query-string';
 
 export default class TransactionService extends BaseService {
   fetchWallet() {
-    return this.get('wallet');
+    const result = this.get('wallet');
+    return result;
   }
 
   fetchTransactions({ page, limit }) {
@@ -19,6 +20,6 @@ export default class TransactionService extends BaseService {
 
     const queryStr = queryString.stringify(queryObj);
 
-    return this.get('transactions' + (queryStr ? `?${queryStr}` : ''));
+    return this.get('transactions/history' + (queryStr ? `?${queryStr}` : ''));
   }
 }
