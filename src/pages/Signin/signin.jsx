@@ -1,16 +1,17 @@
 import React, { Component } from 'react';
-import { Button, TextField } from '@material-ui/core';
+import { Button } from '@material-ui/core';
+import { ValidatorForm, TextValidator } from 'react-material-ui-form-validator';
 import styled from 'styled-components';
+import { inject } from 'mobx-react';
 
 import './signin.scss';
-import { inject } from 'mobx-react';
 import ErrorMessage from '../../components/error.component';
 
 const Heading = styled.h1`
   margin-top: 0;
 `;
 
-const FormContainer = styled.div`
+const FormContainer = styled(ValidatorForm)`
   max-width: 480px;
   width: 100%;
   background-color: #edf4ff;
@@ -18,10 +19,11 @@ const FormContainer = styled.div`
   border-radius: 5px;
 `;
 
-const FormField = styled(TextField)`
+const FormField = styled(TextValidator)`
   width: 100%;
 `;
 
+@inject('routerStore', 'userStore')
 class SignInPage extends Component {
   constructor(props) {
     super(props);
@@ -32,13 +34,40 @@ class SignInPage extends Component {
     };
   }
 
+  convertErrorObjToArr = (errObj) => {
+    const err = [];
+    for (let prop in errObj) {
+      const message = `${prop}: ${errObj[prop]}`;
+      err.push(message);
+    }
+    return err;
+  };
+
+  componentDidMount() {
+    ValidatorForm.addValidationRule('passwordLength', (value) => {
+      return value.length > 7;
+    });
+  }
+
   submit = async () => {
-    const { email, password, passwordConfirm } = this.state;
+    const { email, password } = this.state;
 
     try {
       console.log(email, password);
+
+      await this.props.userStore.signin(email, password);
     } catch (error) {
-      const errorMessage = error.response.data.message;
+      console.log(error);
+
+      let errObj;
+
+      if (error.response.status === 400) {
+        errObj = this.convertErrorObjToArr(error.response.data.error.errors);
+      } else {
+        errObj = error.response.data.error.message;
+      }
+
+      const errorMessage = errObj;
       this.setState({ errorMessage });
     }
   };
@@ -48,11 +77,11 @@ class SignInPage extends Component {
   };
 
   render() {
-    const { errorMessage } = this.state;
+    const { email, password, errorMessage } = this.state;
 
     return (
       <div className='fullscreen-wrapper'>
-        <FormContainer>
+        <FormContainer ref='form' onSubmit={this.submit}>
           <Heading>Crentech Wallets</Heading>
           <p>
             Hello, Sign in to your account to continue using Crentech Wallets
@@ -65,8 +94,11 @@ class SignInPage extends Component {
               className='outlined-name'
               label='email'
               margin='dense'
+              value={email}
               variant='outlined'
               onChange={(e) => this.setState({ email: e.target.value })}
+              validators={['required', 'isEmail']}
+              errorMessages={['this field is required', 'email is not valid']}
             />
           </div>
           <div>
@@ -75,11 +107,17 @@ class SignInPage extends Component {
               label='Password'
               margin='dense'
               variant='outlined'
+              value={password}
+              helperText='Should be at least 8 letters'
               type='password'
               onChange={(e) => this.setState({ password: e.target.value })}
+              validators={['required', 'passwordLength']}
+              errorMessages={[
+                'this field is required',
+                'Password should be at least 8 characters',
+              ]}
             />
           </div>
-          <p>Passwords must be at least 8 letters long.</p>
           <hr />
           <div>
             <Button
@@ -89,7 +127,7 @@ class SignInPage extends Component {
               color='primary'
               onClick={this.submit}
             >
-              SIGN UP
+              SIGN IN
             </Button>
             <Button fullWidth onClick={this.goToSignUp}>
               Don't have an account? Sign up now!

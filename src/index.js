@@ -8,20 +8,26 @@ import { RouterStore, syncHistoryWithStore } from 'mobx-react-router';
 import './index.css';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
+import UserStore from './stores/user.store';
+import AuthService from './services/auth.service';
 
+const services = {};
 const stores = {};
 
+services.authService = new AuthService();
+
 stores.routerStore = new RouterStore();
+stores.userStore = new UserStore(services.authService);
 
 const browserHistory = createBrowserHistory();
 const history = syncHistoryWithStore(browserHistory, stores.routerStore);
 
 ReactDOM.render(
-  <React.StrictMode>
+  <Provider {...stores}>
     <Router history={history}>
       <App />
     </Router>
-  </React.StrictMode>,
+  </Provider>,
   document.getElementById('root')
 );
 
