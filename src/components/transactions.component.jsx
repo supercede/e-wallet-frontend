@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { inject, observer } from 'mobx-react';
-import { toJS } from 'mobx';
 
 const formatDate = (date) => {
   const dateFormat = new Date(date);
@@ -26,7 +25,6 @@ class Transactions extends Component {
     return (
       <>
         <h2 className='mb-3 text-center'>Transaction History</h2>
-        {console.log(toJS(transactionsStore.transactions))}
         <div className='table-responsive'>
           <table className='table table-striped'>
             <thead style={{ backgroundColor: 'black', color: 'white' }}>
@@ -38,6 +36,7 @@ class Transactions extends Component {
                 <th scope='col'>type</th>
                 <th scope='col'>status</th>
                 <th scope='col'>Wallet Balance</th>
+                <th scope='col'>Narration</th>
                 <th scope='col'>Notes</th>
               </tr>
             </thead>
@@ -51,6 +50,7 @@ class Transactions extends Component {
                   <td>{txn.type}</td>
                   <td>{txn.status}</td>
                   <td>{txn.walletBalance}</td>
+                  <td>{txn.narration}</td>
                   <td>{txn.errMsg}</td>
                 </tr>
               ))}

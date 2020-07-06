@@ -42,6 +42,10 @@ class DashboardPage extends Component {
     this.setState({ user: authService.loadUser() });
   }
 
+  goToTransfer = () => {
+    this.props.routerStore.push('/transfer');
+  };
+
   render() {
     const { user } = this.state;
     const { transactionsStore } = this.props;
@@ -68,7 +72,7 @@ class DashboardPage extends Component {
               style={{ margin: '15px', fontSize: '1em' }}
               variant='contained'
               color='primary'
-              // onClick={this.submit}
+              onClick={this.goToTransfer}
             >
               Transfer Money
             </Button>

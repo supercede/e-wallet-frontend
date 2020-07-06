@@ -22,4 +22,12 @@ export default class TransactionService extends BaseService {
 
     return this.get('transactions/history' + (queryStr ? `?${queryStr}` : ''));
   }
+
+  transferFunds(amount, narration, recipient) {
+    return this.post('transactions/transfer', {
+      amount,
+      narration,
+      recipient,
+    });
+  }
 }

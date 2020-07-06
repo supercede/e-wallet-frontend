@@ -36,4 +36,17 @@ export default class TransactionStore {
       this.wallet = result.data.data.wallet;
     }
   }
+
+  @action
+  async transferFunds(amount, narration, recipient) {
+    const result = await this.transactionsService.transferFunds(
+      amount,
+      narration,
+      recipient
+    );
+
+    if (result) {
+      this.transactions.push(result.data.data.transaction);
+    }
+  }
 }
