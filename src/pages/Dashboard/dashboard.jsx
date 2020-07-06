@@ -46,6 +46,10 @@ class DashboardPage extends Component {
     this.props.routerStore.push('/transfer');
   };
 
+  goToFundWallet = () => {
+    this.props.routerStore.push('/fund-wallet');
+  };
+
   render() {
     const { user } = this.state;
     const { transactionsStore } = this.props;
@@ -64,7 +68,7 @@ class DashboardPage extends Component {
               style={{ margin: '15px', fontSize: '1em' }}
               variant='contained'
               color='primary'
-              // onClick={this.submit}
+              onClick={this.goToFundWallet}
             >
               Fund Wallet
             </Button>

@@ -30,4 +30,10 @@ export default class TransactionService extends BaseService {
       recipient,
     });
   }
+
+  fundWallet(amount) {
+    return this.post('wallet/fund-wallet', {
+      amount,
+    });
+  }
 }

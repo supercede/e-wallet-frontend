@@ -5,6 +5,7 @@ import SignUpPage from './pages/Signup/signup';
 import SignInPage from './pages/Signin/signin';
 import DashboardPage from './pages/Dashboard/dashboard';
 import TransferMoney from './pages/CreateTransaction/transfer-fund';
+import FundWallet from './pages/CreateTransaction/fund-wallet';
 
 @inject('routerStore')
 @observer
@@ -17,6 +18,7 @@ class App extends Component {
         <Route path='/signin/' component={SignInPage} />
         <Route path='/dashboard' component={DashboardPage} />
         <Route path='/transfer' component={TransferMoney} />
+        <Route path='/fund-wallet' component={FundWallet} />
       </>
     );
   }

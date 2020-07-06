@@ -49,4 +49,14 @@ export default class TransactionStore {
       this.transactions.push(result.data.data.transaction);
     }
   }
+
+  @action
+  async fundWallet(amount) {
+    const result = await this.transactionsService.fundWallet(amount);
+
+    if (result) {
+      // this.transactionsService.routerStore.push(result.data.data.url);
+      window.location.href = result.data.data.url;
+    }
+  }
 }
