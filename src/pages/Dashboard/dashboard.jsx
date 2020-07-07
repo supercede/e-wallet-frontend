@@ -88,7 +88,7 @@ class DashboardPage extends Component {
         <div className='jumbotron'>
           <div className='text-center'>
             <h2>{user.name}</h2>
-            <h4>{transactionsStore.wallet.walletNo}</h4>
+              <h4>Wallet No: {transactionsStore.wallet.walletNo}</h4>
             <h3>₦{transactionsStore.wallet.balance}</h3>
             <Button
               style={{ margin: '15px', fontSize: '1em' }}

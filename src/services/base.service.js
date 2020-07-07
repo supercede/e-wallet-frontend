@@ -1,7 +1,9 @@
+import { config } from 'dotenv';
 import axios from 'axios';
 
+config();
 export default class BaseService {
-  BASE_URL = 'http://localhost:5000/api/v1';
+  BASE_URL = process.env.REACT_APP_BASE_URL;
   _token = null;
 
   constructor(routerStore) {

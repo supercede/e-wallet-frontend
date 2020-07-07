@@ -5,3 +5,9 @@
   align-items: center;
   justify-content: center;
 }
+
+input[type='number'],
+input[type='text'],
+input[type='password'] {
+  font-size: 1.6em;
+}

@@ -9,7 +9,6 @@ export default class AuthService extends BaseService {
     });
     const accessToken = result.data.token;
     const user = result.data.data.user;
-    console.log(result);
 
     this.saveToken(accessToken);
     this.saveUser(user);

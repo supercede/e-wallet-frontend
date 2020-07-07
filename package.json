@@ -10,6 +10,7 @@
     "@testing-library/user-event": "^7.1.2",
     "axios": "^0.19.2",
     "cross-env": "^7.0.2",
+    "dotenv": "^8.2.0",
     "mobx": "^5.15.4",
     "mobx-react": "^6.2.2",
     "mobx-react-router": "^4.1.0",

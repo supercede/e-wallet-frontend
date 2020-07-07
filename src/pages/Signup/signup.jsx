@@ -1,27 +1,12 @@
 import React, { Component } from 'react';
 import { Button } from '@material-ui/core';
-import { ValidatorForm, TextValidator } from 'react-material-ui-form-validator';
-import styled from 'styled-components';
+import { ValidatorForm } from 'react-material-ui-form-validator';
 import { inject } from 'mobx-react';
 
-import './signup.scss';
+import { FormContainer, FormField, Heading } from '../../shared/styles/styles';
 import ErrorMessage from '../../components/error.component';
-
-const Heading = styled.h1`
-  margin-top: 0;
-`;
-
-const FormContainer = styled(ValidatorForm)`
-  max-width: 480px;
-  width: 100%;
-  background-color: #edf4ff;
-  padding: 30px;
-  border-radius: 5px;
-`;
-
-const FormField = styled(TextValidator)`
-  width: 100%;
-`;
+import { convertErrorObjToArr } from '../../shared/utils/utils';
+import './signup.scss';
 
 @inject('routerStore', 'userStore')
 class SignUpPage extends Component {
@@ -35,15 +20,6 @@ class SignUpPage extends Component {
       errorMessage: null,
     };
   }
-
-  convertErrorObjToArr = (errObj) => {
-    const err = [];
-    for (let prop in errObj) {
-      const message = `${prop}: ${errObj[prop]}`;
-      err.push(message);
-    }
-    return err;
-  };
 
   componentDidMount() {
     ValidatorForm.addValidationRule('isPasswordMatch', (value) => {
@@ -68,12 +44,12 @@ class SignUpPage extends Component {
 
     try {
       await this.props.userStore.signup(name, email, password, passwordConfirm);
-      this.props.routerStore.push('/dashboard')
+      this.props.routerStore.push('/dashboard');
     } catch (error) {
       let errObj;
 
       if (error.response.status === 400) {
-        errObj = this.convertErrorObjToArr(error.response.data.error.errors);
+        errObj = convertErrorObjToArr(error.response.data.error.errors);
       } else {
         errObj = error.response.data.error.message;
       }
@@ -128,7 +104,6 @@ class SignUpPage extends Component {
               margin='dense'
               variant='outlined'
               value={password}
-              helperText='Should be at least 8 letters'
               type='password'
               onChange={(e) => this.setState({ password: e.target.value })}
               validators={['required', 'passwordLength']}
@@ -145,7 +120,6 @@ class SignUpPage extends Component {
               margin='dense'
               variant='outlined'
               value={passwordConfirm}
-              helperText='Should be at least 8 letters'
               onChange={(e) =>
                 this.setState({ passwordConfirm: e.target.value })
               }
@@ -158,9 +132,10 @@ class SignUpPage extends Component {
             <Button
               fullWidth
               variant='contained'
+              size='large'
               color='primary'
               type='submit'
-              // onClick={this.submit}
+              style={{ fontSize: '0.8em' }}
             >
               SIGN UP
             </Button>

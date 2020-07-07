@@ -1,26 +1,11 @@
 import React, { Component } from 'react';
-import { ValidatorForm, TextValidator } from 'react-material-ui-form-validator';
-import { Button } from '@material-ui/core';
-import styled from 'styled-components';
+import { Button, InputAdornment } from '@material-ui/core';
 import { inject } from 'mobx-react';
-import '../Signup/signup.scss';
+
 import ErrorMessage from '../../components/error.component';
-
-const Heading = styled.h1`
-  margin-top: 0;
-`;
-
-const FormContainer = styled(ValidatorForm)`
-  max-width: 500px;
-  width: 100%;
-  background-color: #edf4ff;
-  padding: 30px;
-  border-radius: 5px;
-`;
-
-const FormField = styled(TextValidator)`
-  width: 100%;
-`;
+import { convertErrorObjToArr } from '../../shared/utils/utils';
+import { FormContainer, FormField, Heading } from '../../shared/styles/styles';
+import '../Signup/signup.scss';
 
 @inject('transactionsStore', 'routerStore')
 class TransferMoney extends Component {
@@ -40,8 +25,6 @@ class TransferMoney extends Component {
     const { transactionsStore, routerStore } = this.props;
 
     try {
-      console.log({ amount, narration, recipient });
-
       await transactionsStore.transferFunds(amount, narration, recipient);
       routerStore.push('/dashboard');
     } catch (error) {
@@ -49,7 +32,7 @@ class TransferMoney extends Component {
 
       if (error.response.status === 400) {
         if (error.response.data.error?.message === 'validation error') {
-          errObj = this.convertErrorObjToArr(error.response.data.error.errors);
+          errObj = convertErrorObjToArr(error.response.data.error.errors);
         } else {
           errObj = error.response.data.message;
         }
@@ -60,15 +43,6 @@ class TransferMoney extends Component {
       const errorMessage = errObj;
       this.setState({ errorMessage });
     }
-  };
-
-  convertErrorObjToArr = (errObj) => {
-    const err = [];
-    for (let prop in errObj) {
-      const message = `${prop}: ${errObj[prop]}`;
-      err.push(message);
-    }
-    return err;
   };
 
   goToDashboard = () => {
@@ -88,7 +62,7 @@ class TransferMoney extends Component {
           <div>
             <FormField
               className='outlined-name'
-              label='recipient'
+              label="Recipient's Wallet Number"
               margin='dense'
               value={recipient}
               variant='outlined'
@@ -106,6 +80,11 @@ class TransferMoney extends Component {
               type='number'
               value={amount}
               variant='outlined'
+              InputProps={{
+                startAdornment: (
+                  <InputAdornment position='start'>₦</InputAdornment>
+                ),
+              }}
               onChange={(e) => this.setState({ amount: e.target.value })}
               validators={['required']}
               errorMessages={['this field is required']}
@@ -124,15 +103,18 @@ class TransferMoney extends Component {
             />
           </div>
           <div style={{ marginTop: '10px' }}>
-            <Button
-              fullWidth
-              variant='contained'
-              color='primary'
-              type='submit'
-              // onClick={this.submit}
-            >
-              PAY
-            </Button>
+            <div style={{ marginTop: '10px' }}>
+              <Button
+                fullWidth
+                variant='contained'
+                size='large'
+                color='primary'
+                type='submit'
+                style={{ fontSize: '1em' }}
+              >
+                TRANSFER
+              </Button>
+            </div>
           </div>
         </FormContainer>
       </div>
