@@ -3,11 +3,9 @@ import './dashboard.scss';
 import { inject, observer } from 'mobx-react';
 import styled from 'styled-components';
 import SignOutIcon from '@material-ui/icons/ExitToApp';
-import AccountBalanceWalletIcon from '@material-ui/icons/AccountBalanceWallet';
 import { Button, IconButton } from '@material-ui/core';
 import Transactions from '../../components/transactions.component';
 import Loading from '../../components/loading.component';
-import TransactionsFilters from '../../components/filters.component';
 
 const Heading = styled.h1`
   margin-top: 0;
@@ -88,7 +86,7 @@ class DashboardPage extends Component {
         <div className='jumbotron'>
           <div className='text-center'>
             <h2>{user.name}</h2>
-              <h4>Wallet No: {transactionsStore.wallet.walletNo}</h4>
+            <h4>Wallet No: {transactionsStore.wallet.walletNo}</h4>
             <h3>₦{transactionsStore.wallet.balance}</h3>
             <Button
               style={{ margin: '15px', fontSize: '1em' }}

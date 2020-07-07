@@ -34,7 +34,10 @@ export default class BaseService {
   _handleHttpError(error) {
     const { statusCode } = error.response.data;
 
-    if (statusCode !== 401) {
+    const errMsg = error.response.data.error.message;
+    console.log(errMsg);
+
+    if (statusCode !== 401 && errMsg !== 'jwt malformed') {
       throw error;
     } else {
       return this._handleUnauthorized();
