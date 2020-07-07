@@ -2,11 +2,12 @@ import React, { Component } from 'react';
 import './dashboard.scss';
 import { inject, observer } from 'mobx-react';
 import styled from 'styled-components';
-import Transactions from '../../components/transactions.component';
 import SignOutIcon from '@material-ui/icons/ExitToApp';
 import AccountBalanceWalletIcon from '@material-ui/icons/AccountBalanceWallet';
 import { Button, IconButton } from '@material-ui/core';
+import Transactions from '../../components/transactions.component';
 import Loading from '../../components/loading.component';
+import TransactionsFilters from '../../components/filters.component';
 
 const Heading = styled.h1`
   margin-top: 0;
@@ -21,6 +22,7 @@ const Container = styled.div`
 const TnxContainer = styled.div`
   background-color: #eeeeee;
   margin-bottom: 30px;
+  padding: 10px;
 `;
 
 const SignOutIconContainer = styled.div`
@@ -60,7 +62,6 @@ class DashboardPage extends Component {
     transactionsStore.resetTransactions();
     routerStore.push('/signin');
   };
-
 
   goToTransfer = () => {
     this.props.routerStore.push('/transfer');

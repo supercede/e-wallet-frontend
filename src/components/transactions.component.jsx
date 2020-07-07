@@ -1,15 +1,22 @@
 import React, { Component } from 'react';
 import { inject, observer } from 'mobx-react';
+import TransactionsFilters from './filters.component';
+import './transactions.style.scss';
 
 const formatDate = (date) => {
   const dateFormat = new Date(date);
-  return (
+  const txnDate =
     dateFormat.getDate() +
     '/' +
     (dateFormat.getMonth() + 1) +
     '/' +
-    dateFormat.getFullYear()
-  );
+    dateFormat.getFullYear();
+
+  const txnTime = dateFormat.toLocaleTimeString([], {
+    hour: '2-digit',
+    minute: '2-digit',
+  });
+  return txnDate + ' | ' + txnTime;
 };
 
 @inject('routerStore', 'transactionsStore')
@@ -25,6 +32,8 @@ class Transactions extends Component {
     return (
       <>
         <h2 className='mb-3 text-center'>Transaction History</h2>
+        <TransactionsFilters />
+        <h4>Showing {transactionsStore.txnCount} transactions</h4>
         <div className='table-responsive'>
           <table className='table table-striped'>
             <thead style={{ backgroundColor: 'black', color: 'white' }}>

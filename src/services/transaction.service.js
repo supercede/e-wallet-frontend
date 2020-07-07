@@ -7,7 +7,7 @@ export default class TransactionService extends BaseService {
     return result;
   }
 
-  fetchTransactions({ page, limit }) {
+  fetchTransactions({ page, limit, sort, status }) {
     const queryObj = {};
 
     if (Boolean(parseInt(page))) {
@@ -16,6 +16,14 @@ export default class TransactionService extends BaseService {
 
     if (Boolean(parseInt(limit))) {
       queryObj.limit = limit;
+    }
+
+    if (sort) {
+      queryObj.sort = sort;
+    }
+
+    if (status) {
+      queryObj.status = status;
     }
 
     const queryStr = queryString.stringify(queryObj);

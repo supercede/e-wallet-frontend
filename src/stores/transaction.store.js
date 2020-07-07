@@ -3,15 +3,16 @@ import { observable, action } from 'mobx';
 export default class TransactionStore {
   @observable transactions = [];
   @observable wallet = {};
-  @observable filters = { page: 1, limit: 10 };
+  @observable txnCount = 0;
+  @observable filters = { page: 1, limit: 10, status: '', sort: '' };
 
   constructor(transactionsService) {
     this.transactionsService = transactionsService;
   }
 
-  updateFilters({ status, search }) {
+  updateFilters({ status, sort }) {
     this.filters.status = status;
-    this.filters.search = search;
+    this.filters.sort = sort;
     this.fetchTransactions();
   }
 
@@ -27,6 +28,7 @@ export default class TransactionStore {
     );
 
     if (result) {
+      this.txnCount = result.data.count;
       this.transactions = result.data.data.transactions;
     }
   }
