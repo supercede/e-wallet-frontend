@@ -18,9 +18,15 @@ export default class UserStore {
   }
 
   @action
+  async logout() {
+    this.authService.logout();
+  }
+
+  @action
   signout() {
-    this.username = null;
+    this.user = null;
     this.authService.removeToken();
-    this.authService.removeUsername();
+    this.authService.removeUser();
+    this.logout();
   }
 }

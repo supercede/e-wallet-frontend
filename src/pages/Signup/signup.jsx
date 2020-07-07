@@ -68,6 +68,7 @@ class SignUpPage extends Component {
 
     try {
       await this.props.userStore.signup(name, email, password, passwordConfirm);
+      this.props.routerStore.push('/dashboard')
     } catch (error) {
       let errObj;
 

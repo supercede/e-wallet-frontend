@@ -25,6 +25,10 @@ export default class AuthService extends BaseService {
     });
   }
 
+  async logout() {
+    await post(`${this.BASE_URL}/auth/logout`);
+  }
+
   async signout() {
     this.removeToken();
     this.removeUser();

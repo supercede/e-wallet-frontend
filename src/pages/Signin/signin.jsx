@@ -54,9 +54,8 @@ class SignInPage extends Component {
 
     try {
       await this.props.userStore.signin(email, password);
+      this.props.routerStore.push('/dashboard')
     } catch (error) {
-      console.log(error);
-
       let errObj;
 
       if (error.response.status === 400) {

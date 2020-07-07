@@ -16,6 +16,11 @@ export default class TransactionStore {
   }
 
   @action
+  resetTransactions() {
+    this.transactions = [];
+  }
+
+  @action
   async fetchTransactions() {
     const result = await this.transactionsService.fetchTransactions(
       this.filters

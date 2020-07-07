@@ -5,7 +5,7 @@ import styled from 'styled-components';
 import Transactions from '../../components/transactions.component';
 import SignOutIcon from '@material-ui/icons/ExitToApp';
 import AccountBalanceWalletIcon from '@material-ui/icons/AccountBalanceWallet';
-import { Button } from '@material-ui/core';
+import { Button, IconButton } from '@material-ui/core';
 import Loading from '../../components/loading.component';
 
 const Heading = styled.h1`
@@ -21,6 +21,18 @@ const Container = styled.div`
 const TnxContainer = styled.div`
   background-color: #eeeeee;
   margin-bottom: 30px;
+`;
+
+const SignOutIconContainer = styled.div`
+  position: absolute;
+  top: 0;
+  right: 0;
+  margin-left: 10px;
+
+  .signOutIcon {
+    fill: black;
+    font-size: 2em;
+  }
 `;
 
 @inject('routerStore', 'userStore', 'transactionsStore')
@@ -42,6 +54,14 @@ class DashboardPage extends Component {
     this.setState({ user: authService.loadUser() });
   }
 
+  handleSignOut = () => {
+    const { userStore, transactionsStore, routerStore } = this.props;
+    userStore.signout();
+    transactionsStore.resetTransactions();
+    routerStore.push('/signin');
+  };
+
+
   goToTransfer = () => {
     this.props.routerStore.push('/transfer');
   };
@@ -59,6 +79,11 @@ class DashboardPage extends Component {
     ) : (
       <Container className='container-fluid'>
         <Heading>Dashboard</Heading>
+        <SignOutIconContainer className='float-right'>
+          <IconButton onClick={this.handleSignOut}>
+            <SignOutIcon className='signOutIcon' />
+          </IconButton>
+        </SignOutIconContainer>
         <div className='jumbotron'>
           <div className='text-center'>
             <h2>{user.name}</h2>
